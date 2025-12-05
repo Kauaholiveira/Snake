@@ -10,44 +10,58 @@ namespace ConsoleApp2
     internal class Tabuleiro
     {
         public char[,] tabuleiro = new char[22, 32];
+        
         //Imprimir a Matriz do Tabuleiro
         public void ImprimirTabuleiro()
         {
-            
+            int x = 0;
+            int y = 0;
+            GerarFruta(out x,out y);
             for (int i = 0; i < tabuleiro.GetLength(0); i++)
             {
-
                 Console.WriteLine();
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
                 for (int j = 0; j < tabuleiro.GetLength(1); j++)
                 {
-
                     tabuleiro[i, j] = '_';
-
-                    if (i == 0 || j == 0 || i == 21 || j == 31)
+                    if (tabuleiro[i,j]== tabuleiro[x, y])
                     {
-                        tabuleiro[i, j] = 'a';
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        tabuleiro[x, y] = 'f';  //Char da fruta f
                     }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        Console.BackgroundColor = ConsoleColor.DarkGreen;
-                    }
-                 
-
-                    Console.Write(tabuleiro[i, j]);
+                    ColorirTabuleiro(i,j);
+                    Console.Write($"{tabuleiro[i, j]} ");
                 }
             }
             Console.WriteLine();
             Console.ResetColor();
         }
-        public void GerarFruta()
+        //Colorir a matriz 
+        public void ColorirTabuleiro(int i,int j)
+        {
+            if (tabuleiro[i,j] == 'f')
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.BackgroundColor = ConsoleColor.Red;
+            }
+            else if (i == 0 || j == 0 || i == 21 || j == 31)
+            {
+                tabuleiro[i, j] = 'b'; //Char da borda b
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+            }
+            else 
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.BackgroundColor = ConsoleColor.Green;
+            }
+            
+        }
+        //Gerar fruta
+        public void GerarFruta(out int x, out int y)
         {
             Random fruta = new Random();
-            int i = fruta.Next(1, 21);
-            int j = fruta.Next(1, 31);
+            x = fruta.Next(1, 21);
+            y = fruta.Next(1, 31);
         }
 
         class Program
@@ -55,10 +69,9 @@ namespace ConsoleApp2
             static void Main(string[] args)
             {
                 Tabuleiro tab = new Tabuleiro();
-
                 tab.ImprimirTabuleiro();
 
             }
-        }
-    }
+        }
+    }
 }
